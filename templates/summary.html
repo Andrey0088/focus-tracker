@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Resumo Detalhado{% endblock %}
+
+{% block content %}
+    <h1>Resumo Detalhado dos Estudos</h1>
+
+    <div class="card-grid">
+        <div class="card">
+            <h3>Total Estudado</h3>
+            <p class="large-text">{{ total_duration }}</p>
+        </div>
+        <div class="card">
+            <h3>Qualidade Média Geral</h3>
+            <p class="large-text">{{ overall_avg_quality }}</p>
+        </div>
+    </div>
+
+    {% if summary_data %}
+        {% for subject_data in summary_data %}
+            <div class="summary-section detailed-subject-summary">
+                <h3 class="section-title">{{ subject_data.subject }} (Total: {{ subject_data.total_duration }} | Média Qualidade: {{ subject_data.avg_quality }})</h3>
+                {% if subject_data.records %}
+                    <div class="table-responsive">
+                        <table class="records-table">
+                            <thead>
+                                <tr>
+                                    <th>Data</th>
+                                    <th>Hora</th>
+                                    <th>Duração</th>
+                                    <th>Qualidade</th>
+                                    <th>Notas</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for record in subject_data.records %}
+                                    <tr>
+                                        <td>{{ record.formatted_date }}</td>
+                                        <td>{{ record.formatted_time }}</td>
+                                        <td>{{ record.formatted_duration }}</td>
+                                        <td>{{ record.display_quality }}</td>
+                                        <td>{{ record.notes }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <p class="info-message">Nenhum registro encontrado para esta matéria.</p>
+                {% endif %}
+            </div>
+        {% endfor %}
+    {% else %}
+        <p class="info-message">Nenhum registro para resumir ainda.</p>
+    {% endif %}
+
+    <div class="action-buttons-group">
+        <a href="{{ url_for('register_session') }}" class="button primary-button">Registrar Nova Sessão</a>
+    </div>
+{% endblock %}

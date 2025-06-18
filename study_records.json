@@ -1,0 +1,16 @@
+[
+    {
+        "timestamp": "2025-06-15T13:07:47.739123",
+        "subject": "treino maratona",
+        "duration_minutes": 120,
+        "quality": 4,
+        "notes": ""
+    },
+    {
+        "timestamp": "2025-06-18T13:36:59.722893",
+        "subject": "treino maratona",
+        "duration_minutes": 30,
+        "quality": 2,
+        "notes": ""
+    }
+]

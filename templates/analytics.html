@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Analytics{% endblock %}
+
+{% block content %}
+    <h1>Análise de Estudos</h1>
+    <h2 class="sub-header">Insights sobre seus hábitos de estudo</h2>
+    <p class="intro-text">
+        Visualize gráficos detalhados sobre sua dedicação e qualidade.
+    </p>
+
+    <div class="chart-section-full" id="analyticsChartsSection">
+        {# Os canvas serão preenchidos via JavaScript #}
+        <div id="qualityChartContainer" class="chart-card-full">
+            <canvas id="analyticsQualityChart"></canvas>
+            {# Mensagem de carregamento ou "sem dados" será manipulada por JS #}
+        </div>
+
+        <div id="weekdayChartContainer" class="chart-card-full">
+            <canvas id="analyticsWeekdayChart"></canvas>
+        </div>
+
+        <div id="sessionsChartContainer" class="chart-card-full">
+            <canvas id="analyticsSessionsChart"></canvas>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {# O Chart.js já está carregado em base.html #}
+    <script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+{% endblock %}

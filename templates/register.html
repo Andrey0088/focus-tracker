@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Registrar Estudo{% endblock %}
+
+{% block content %}
+    <h1>Registrar Nova Sessão de Estudo</h1>
+    <form method="POST" action="{{ url_for('register_session') }}">
+        <label for="subject">Matéria:</label>
+        <input type="text" id="subject" name="subject" list="subject-suggestions" value="{{ subject if subject is defined }}" required>
+        <datalist id="subject-suggestions">
+            {% for subj in unique_subjects %}
+                <option value="{{ subj }}"></option>
+            {% endfor %}
+        </datalist>
+
+        <label for="duration">Duração (minutos):</label>
+        <input type="number" id="duration" name="duration" list="duration-suggestions" value="{{ duration if duration is defined }}" required min="1">
+        <datalist id="duration-suggestions">
+            {% for dur in standard_durations %}
+                <option value="{{ dur }}"></option>
+            {% endfor %}
+        </datalist>
+
+        <label for="quality">Qualidade da Sessão (1-5):</label>
+        <select id="quality" name="quality" required>
+            <option value="">Selecione...</option>
+            {% set current_quality = quality if quality is defined else '' %} {# Alterado para string vazia para o default #}
+            <option value="1" {% if current_quality|int == 1 %}selected{% endif %}>1 - Muito Baixa</option>
+            <option value="2" {% if current_quality|int == 2 %}selected{% endif %}>2 - Baixa</option>
+            <option value="3" {% if current_quality|int == 3 %}selected{% endif %}>3 - Média</option>
+            <option value="4" {% if current_quality|int == 4 %}selected{% endif %}>4 - Boa</option>
+            <option value="5" {% if current_quality|int == 5 %}selected{% endif %}>5 - Excelente</option>
+        </select>
+
+        <label for="notes">Anotações (opcional):</label>
+        <textarea id="notes" name="notes" rows="4">{{ notes if notes is defined }}</textarea>
+
+        <button type="submit">Registrar</button>
+    </form>
+{% endblock %}

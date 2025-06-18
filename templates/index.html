@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+    <h1>Bem-vindo ao Life Organizer!</h1>
+    <h2 class="sub-header">Seu Painel de Estudos</h2>
+    <p class="intro-text">
+        Visualize rapidamente seu progresso e hábitos de estudo.
+    </p>
+
+    <div class="card-grid">
+        <div class="card">
+            <h3>Total Estudado</h3>
+            <p class="large-text">{{ total_duration }}</p>
+        </div>
+        <div class="card">
+            <h3>Qualidade Média</h3>
+            <p class="large-text">{{ overall_avg_quality }}</p>
+        </div>
+    </div>
+
+    {% if subject_summary %}
+        <div class="summary-section">
+            <h3 class="section-title">Resumo por Matéria</h3>
+            <div class="subject-list">
+                {% for subject, data in subject_summary.items() %}
+                    <div class="subject-item">
+                        <strong>{{ subject }}:</strong> {{ data.duration }} (Média Qualidade: {{ data.avg_quality }})
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <div class="chart-section">
+            <div id="subjectChartContainer" class="chart-card">
+                <canvas id="subjectStudyChart" 
+                        data-labels="{{ chart_subject_labels | tojson }}" 
+                        data-data="{{ chart_subject_data | tojson }}">
+                </canvas>
+            </div>
+
+            <div id="dailyChartContainer" class="chart-card">
+                <canvas id="dailyStudyChart" 
+                        data-labels="{{ daily_chart_labels | tojson }}" 
+                        data-data="{{ daily_chart_data | tojson }}">
+                </canvas>
+            </div>
+        </div>
+
+    {% else %}
+        <p class="info-message">Nenhum estudo registrado ainda. Que tal começar a registrar?</p>
+    {% endif %}
+
+   <div class="action-buttons-group">
+        <a href="{{ url_for('register_session') }}" class="button primary-button">Registrar Nova Sessão</a>
+        {# <a href="{{ url_for('view_records') }}" class="button secondary-button">Ver Todos os Registros</a> #}
+        {# <a href="{{ url_for('export_csv') }}" class="button export-csv-button">Exportar CSV</a> #}
+        {# <a href="{{ url_for('export_json') }}" class="button export-json-button">Exportar JSON</a> #}
+
+        <a href="{{ url_for('view_records') }}" class="button primary-button">Ver Todos os Registros</a>
+        <a href="{{ url_for('export_csv') }}" class="button primary-button">Exportar CSV</a>
+        <a href="{{ url_for('export_json') }}" class="button primary-button">Exportar JSON</a>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ url_for('static', filename='js/charts.js') }}"></script>
+{% endblock %}
